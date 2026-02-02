@@ -8,7 +8,7 @@ const ProductController =new  BaseController(Product);
 const CategoryController = new BaseController(Category);
 
 // Violation of Rest API Rule
-exports.CreateOrUpdateProduct = asyncHandler(async (req, res) => {
+export const CreateOrUpdateProduct = asyncHandler(async (req, res) => {
   console.log("req.body",req.body)
   console.log("req.file",req.file)
   ProductController.bodyExist(req.body);
@@ -126,7 +126,7 @@ productData.categoryName = categoryInstance.name;
 
 
 
-exports.DeleteProduct = asyncHandler(async (req, res) => {
+export const DeleteProduct = asyncHandler(async (req, res) => {
   ProductController.paramsExist(req.params, ['id']); // Validate params
 
   const product = await ProductController.delete({ id: req.params.id });
@@ -139,7 +139,7 @@ exports.DeleteProduct = asyncHandler(async (req, res) => {
   );
 });
 
-exports.GetProducts = asyncHandler(async (req, res) => {
+export const GetProducts = asyncHandler(async (req, res) => {
   const { page, limit, paginate } = req.query;
 
   const result = await ProductController.getAllOrPaginated({}, {
@@ -153,7 +153,7 @@ exports.GetProducts = asyncHandler(async (req, res) => {
   sendResponse(res, StatusCodes.OK, "Products fetched successfully",result.data);
 });
 
-exports.GetProductById =asyncHandler(async (req,res)=>{
+export const GetProductById =asyncHandler(async (req,res)=>{
     ProductController.paramsExist(req,params,['id'])
     const product = await ProductController.findOne(
         {id},

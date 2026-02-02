@@ -1,4 +1,4 @@
-const { Error } = require("sequelize");
+import { Error } from "sequelize";
 
 class ApiError extends Error{
     constructor(statusCode,message,detail=null,isOperational=true){
@@ -12,4 +12,4 @@ class ApiError extends Error{
     }
 }
 
-module.exports=ApiError
+export default ApiError

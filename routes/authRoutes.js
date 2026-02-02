@@ -1,5 +1,5 @@
-const express = require('express')
-const { signup,sendotp,verifyotp,login } = require('../controllers/authController')
+import express from 'express'
+import { signup,sendotp,verifyotp,login } from '../controllers/authController.js'
 
 
 const router = express.Router()
@@ -10,4 +10,4 @@ router.post('/verifyotp',verifyotp)
 router.post('/login',login)
 
 
-module.exports = router
+export default router

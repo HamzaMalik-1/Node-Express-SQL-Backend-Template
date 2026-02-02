@@ -1,5 +1,5 @@
-const ApiError =require('./ApiError')
-const { StatusCodes, ReasonPhrases } = require('http-status-codes');
+import ApiError from './ApiError.js'
+import { StatusCodes, ReasonPhrases } from 'http-status-codes';
 
 
 class BadRequestError extends ApiError {
@@ -40,12 +40,11 @@ class AlreadyExist extends ApiError {
     super(StatusCodes.CONFLICT, message, details);
   }
 } 
-
-module.exports ={
+export {
     BadRequestError,
-    InternalServerError ,
-    NotFoundError ,
+    InternalServerError,
+    NotFoundError,
     ForbiddenError,
     UnauthorizedError,
     AlreadyExist
-}
+};

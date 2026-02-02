@@ -1,11 +1,12 @@
-const express = require('express');
+
+import express  from 'express';
 const app = express();
-const helmet = require('helmet');
-const cors =require('cors')
-const rateLimit = require('express-rate-limit');
-const hpp=require('hpp')
-const {errorHandler}= require('./middlewares/errorHandler');
-const { InternalServerError } = require('./utils/ErrorHelpers/Errors');
+import helmet from 'helmet';
+import cors from 'cors'
+import rateLimit from 'express-rate-limit';
+import hpp from 'hpp';
+import errorHandler  from './middlewares/errorHandler.js';
+// const { InternalServerError } = require('./utils/ErrorHelpers/Errors');
 
 // Middleware
 app.use(express.json({ limit: '5mb' }));
@@ -14,8 +15,8 @@ app.use(cors());
 app.use(express.urlencoded());
 
 
-const authRouter = require('./routes/authRoutes')
-const productRouter = require('./routes/productRoutes')
+// import authRouter from './routes/authRoutes.js'
+// import productRouter from './routes/productRoutes.js'
 
 // app.get('/', async (req, res, next) => {
 //   try {
@@ -42,12 +43,11 @@ app.use(hpp());
 
 
 
-app.use('/api/auth',authRouter)
-app.use('/api/product',productRouter)
+// app.use('/api/auth',authRouter)
+// app.use('/api/product',productRouter)
 // Routes
 app.get('/', (req, res) => {
   res.send('Server is working!');
 });
 app.use(errorHandler)
-
-module.exports = app;
+export default app;

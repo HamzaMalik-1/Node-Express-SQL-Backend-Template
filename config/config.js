@@ -1,23 +1,36 @@
-// const { cloudinary_js_config } = require('./cloudinary');
+import dotenv from 'dotenv'
+dotenv.config();
 
-require('dotenv').config();
 
-module.exports = {
-    development: {
+const config = {
+  development: {
     PORT: process.env.PORT || 3000,
-    username: process.env.DB_USER || 'root',
-    password: process.env.DB_PASSWORD || '',
-    database: process.env.DB_NAME || 'mydb',
-    host: process.env.DB_HOST || '127.0.0.1',
-    dialect: 'mysql',
-    sendGridApiKey:process.env.SENDGRID_API_KEY,
+    username: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT || 6543,
+    dialect: 'postgres',
+    dialectOptions: {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false // Changed to false for Supabase compatibility
+      }
+    },
+    sendGridApiKey: process.env.SENDGRID_API_KEY,
     sendGridUsername: process.env.SENDGRID_USERNAME || 'apikey',
-email: process.env.SENDER_EMAIL || 'your_verified_sender@example.com',
- cloudinaryCloudName:process.env.CLOUDINARY_CLOUD_NAME,
- cloudinaryApiKey:process.env.CLOUDINARY_API_KEY,
- cloudinaryApiSecret:process.env.CLOUDINARY_API_SECRET,
+    email: process.env.SENDER_EMAIL,
+    cloudinaryCloudName: process.env.CLOUDINARY_CLOUD_NAME,
+    cloudinaryApiKey: process.env.CLOUDINARY_API_KEY,
+    cloudinaryApiSecret: process.env.CLOUDINARY_API_SECRET,
   },
   production: {
-    // similar config for production
+    // Fill this in later when you deploy to Vercel or Render
+    dialect: 'postgres',
+    dialectOptions: {
+      ssl: { require: true, rejectUnauthorized: false }
+    }
   }
 };
+
+export default process.env.NODE_ENV === 'production' ? config.production : config.development;

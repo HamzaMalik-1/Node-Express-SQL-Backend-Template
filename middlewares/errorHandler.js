@@ -1,13 +1,13 @@
-const { ValidationError, UniqueConstraintError } = require("sequelize");
-const ApiError = require("../utils/ErrorHelpers/ApiError");
-const {
+import { ValidationError, UniqueConstraintError } from "sequelize";
+import ApiError from "../utils/ErrorHelpers/ApiError.js";
+import{
   BadRequestError,
   InternalServerError,
   NotFoundError,
   ForbiddenError,
   UnauthorizedError,
   AlreadyExist,
-} = require("../utils/ErrorHelpers/Errors");
+} from "../utils/ErrorHelpers/Errors.js";
 
 const errorHandler = (err, req, res, next) => {
   console.log("err", err);
@@ -54,4 +54,4 @@ const errorHandler = (err, req, res, next) => {
   });
 };
 
-module.exports = { errorHandler };
+export default errorHandler ;

@@ -10,7 +10,7 @@ const { InternalServerError, UnauthorizedError, NotFoundError, BadRequestError }
 
 const UserController = new BaseController(User);
 
-exports.signup = asyncHandler(async (req, res) => {
+export const signup = asyncHandler(async (req, res) => {
   // Check body exists
   UserController.bodyExist(req.body);
 
@@ -35,7 +35,7 @@ exports.signup = asyncHandler(async (req, res) => {
   });
 });
 
-exports.sendotp = asyncHandler(async (req, res) => {
+export const sendotp = asyncHandler(async (req, res) => {
 
   UserController.bodyExist(req.body);
   UserController.requireFields(req.body, ["email"]);
@@ -62,7 +62,7 @@ exports.sendotp = asyncHandler(async (req, res) => {
   });
 });
 
-exports.verifyotp = asyncHandler( async (req,res)=>{
+export const verifyotp = asyncHandler( async (req,res)=>{
 
       UserController.bodyExist(req.body);
        UserController.requireFields(req.body, ["email","otp"]);
@@ -84,7 +84,7 @@ const isVerified = await user.isVerifyOtp(otp);
 
 } )
 
-exports.login = asyncHandler(async (req, res) => {
+export const login = asyncHandler(async (req, res) => {
   UserController.bodyExist(req.body);
 
   const { email, username, password } = req.body;

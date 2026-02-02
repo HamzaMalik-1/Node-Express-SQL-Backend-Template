@@ -1,6 +1,6 @@
 const cloudinary = require('cloudinary').v2;
-const {development}=require('./config')
-const {cloudinaryCloudName,cloudinaryApiKey,cloudinaryApiSecret}=development
+const configuration=require('./config')
+const {cloudinaryCloudName,cloudinaryApiKey,cloudinaryApiSecret}=configuration
 
 cloudinary.config({
   cloud_name: cloudinaryCloudName,

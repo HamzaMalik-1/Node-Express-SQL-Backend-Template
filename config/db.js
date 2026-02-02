@@ -1,43 +1,48 @@
-const { Sequelize } = require('sequelize');
-const config = require('./config');
-const mysql = require('mysql2/promise');
 
-const { database, username, password, host } = config.development;
+
+import { Sequelize } from 'sequelize';
+import config  from './config.js';
+import { createClient } from '@supabase/supabase-js';
+
+const { database, username, password, host, port } = config;
+// Supabase Client (For Auth/Storage/Realtime)
+const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseKey = process.env.SUPABASE_ANON_KEY; 
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 const sequelize = new Sequelize(database, username, password, {
   host,
-  dialect: 'mysql',
-  logging: false
+  port: port || 6543,
+  dialect: 'postgres',
+  logging: false,
+  dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false 
+    },
+    keepAlive: true,
+  },
+  pool: {
+    max: 5,
+    min: 0,
+    acquire: 60000, // Increased for remote cloud latency
+    idle: 10000
+  }
 });
 
-// to connect Database
+
 async function connectDB() {
   try {
     await sequelize.authenticate();
-    console.log('✅ MySQL connection established successfully.');
+    console.log('✅ Supabase (PostgreSQL) connection established successfully.');
   } catch (error) {
-    console.error('❌ Unable to connect to the database:', error);
+    console.error('❌ Unable to connect to the Supabase database:', error.message);
+    
+    if (error.message.includes('Tenant or user not found')) {
+       console.error('👉 TIP: Check if DB_HOST matches your Supabase Project Region exactly.');
+    }
+    process.exit(1); 
   }
 }
 
-// to create database
-async function createDatabaseIfNotExists() {
-  try {
-    // Connect to MySQL without specifying database
-    const connection = await mysql.createConnection({
-      host,
-      user: username,
-      password
-    });
-
-    // Create the DB if it doesn't exist
-    await connection.query(`CREATE DATABASE IF NOT EXISTS \`${database}\`;`);
-    console.log(`✅ Database "${database}" is ready.`);
-    await connection.end();
-  } catch (error) {
-    console.error('❌ Error creating database:', error);
-    throw error;
-  }
-}
-
-module.exports = { sequelize, connectDB,createDatabaseIfNotExists };
+export { sequelize, connectDB, supabase };

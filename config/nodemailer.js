@@ -1,7 +1,7 @@
 const nodemailer = require('nodemailer');
-const { development } = require('./config');
+const configuration = require('./config');
 
-const { sendGridUsername, sendGridApiKey } = development;
+const { sendGridUsername, sendGridApiKey } = configuration;
 
 const transporter = nodemailer.createTransport({
   host: 'smtp.sendgrid.net',
